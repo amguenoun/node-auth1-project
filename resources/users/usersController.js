@@ -24,12 +24,7 @@ exports.registerUser = (req, res) => {
 exports.getAllUsers = (req, res) => {
     db('users')
         .then(users => {
-            if (req.session.user) {
-                res.status(200).json(users)
-            }
-            else {
-                res.status(401).json({ message: "You need to be logged in" })
-            }
+            res.status(200).json(users)
         })
         .catch(err => {
             res.status(500).json({ message: "Couldn't access database" })
@@ -60,8 +55,6 @@ exports.loginUser = (req, res) => {
 }
 
 exports.logoutUser = (req, res) => {
-    if (req.session) {
-        req.session.destroy();
-        res.status(200).json({ message: 'Logout Successful' });
-    }
+    req.session.destroy();
+    res.status(200).json({ message: 'Logout Successful' });
 }
